@@ -28,11 +28,10 @@ class Header extends StatelessWidget {
                       itemBuilder: (BuildContext context) {
                         return [
                           _popupMenuItem('Ana Sayfa', '/AnaSayfa'),
-                          _popupMenuItem('Fiyatlandırma', 'https://google.com'),
-                          _popupMenuItem('Anketler', '/custom_anket'),
+                          _popupMenuItem('Anketler', '/anketSayfa'),
+                          _popupMenuItem('Kahveler', 'kahveler'),
                           _popupMenuItem('SSS', '/sss'),
-                          _popupMenuItem('İletişim', 'https://google.com'),
-                          _popupMenuItem('Hakkımızda', 'https://google.com'),
+                          _popupMenuItem('Hakkımızda', 'hakkimizda'),
                         ];
                       },
                       child: const Icon(Icons.menu,
@@ -55,7 +54,7 @@ class Header extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _headerButton(context, 'Ana Sayfa', '/AnaSayfa'),
-                      _headerButton(context, 'Anketler', '/custom_anket'),
+                      _headerButton(context, 'Anketler', '/anketSayfa'),
                       _headerButton(context, 'Kahveler', '/kahveler'),
                       _headerButton(context, 'SSS', '/sss'),
                       _headerButton(context, 'Hakkımızda', '/hakkimizda'),

@@ -1,4 +1,5 @@
 import 'package:beansocial/anaSayfa.dart';
+import 'package:beansocial/anketSayfa.dart';
 import 'package:beansocial/hakkimizda.dart';
 import 'package:beansocial/kahveler.dart';
 import 'package:beansocial/login.dart';
@@ -6,8 +7,10 @@ import 'package:beansocial/signup.dart';
 import 'package:beansocial/sss.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_web_plugins/url_strategy.dart'; // ✅ BUNU EKLE
 
 void main() {
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -39,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupPage(),
         '/hakkimizda': (context) => const Hakkimizda(),
         '/kahveler': (context) => const Kahveler(),
+        '/anketSayfa': (context) => const CoffeeSurveyPage(),
 
         //'/profile': (context) => const Profile(),
       },
