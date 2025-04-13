@@ -4,18 +4,17 @@ import 'package:beansocial/footerr.dart';
 import 'package:beansocial/header.dart';
 import 'package:flutter/material.dart';
 
-// Soru tipi enum'u
 enum QuestionType {
   multipleChoice,
   yesNo,
   scale,
 }
 
-// Soru modelimiz
 class SurveyQuestion {
   final String question;
   final QuestionType type;
-  final List<String>? options; // sadece multipleChoice için
+  final List<String>? options;
+
   SurveyQuestion({
     required this.question,
     required this.type,
@@ -31,7 +30,6 @@ class CoffeeSurveyPage extends StatefulWidget {
 }
 
 class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
-  // 30 soruluk havuz
   final List<SurveyQuestion> allQuestions = [
     SurveyQuestion(
       question: "Yumuşak içim kahve sever misiniz?",
@@ -50,12 +48,23 @@ class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
       type: QuestionType.multipleChoice,
       options: ["Espresso", "Latte", "Filtre Kahve", "Türk Kahvesi"],
     ),
-    // TODO: 26 tane daha soru ekle...
+    // Daha fazla soru eklenecek...
   ];
 
-  // Rastgele seçilmiş 10 soru
+  final List<String> coffeeTips = [
+    "☕ Arabica çekirdekleri genellikle daha tatlı ve yumuşaktır.",
+    "🌍 Kahve ilk olarak Etiyopya'da keşfedildi!",
+    "🔥 Koyu kavurma kahveler, daha az kafein içerir.",
+    "🥛 Süt, kahvenin asiditesini dengeler.",
+    "⏳ French Press demleme, kahvenin gövdesini artırır.",
+    "🌿 Filtre kahveler, espressoya göre daha fazla antioksidan içerir.",
+    "🫘 Taze öğütülmüş kahve, her zaman daha aromatiktir.",
+    "❄️ Cold Brew kahve, yaz günlerinin kahramanıdır.",
+    "🇹🇷 Türk kahvesi UNESCO kültürel miras listesinde yer alır!",
+    "📈 Kahve tüketimi, yaratıcı düşünceyi destekler.",
+  ];
+
   late List<SurveyQuestion> selectedQuestions;
-  // Cevapları tutan map
   final Map<int, dynamic> answers = {};
 
   @override
@@ -64,11 +73,14 @@ class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
     selectedQuestions = _generateRandomQuestions();
   }
 
-  // 30 soruyu karıştırıp 10 tanesini al
   List<SurveyQuestion> _generateRandomQuestions() {
     final random = Random();
     final shuffled = [...allQuestions]..shuffle(random);
     return shuffled.take(10).toList();
+  }
+
+  String _getRandomTip(int index) {
+    return coffeeTips[index % coffeeTips.length];
   }
 
   void _submitSurvey() {
@@ -80,7 +92,7 @@ class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(dialogContext).pop(); // Dialog'u kapat
+              Navigator.of(dialogContext).pop();
               Future.delayed(const Duration(milliseconds: 100), () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   '/AnaSayfa',
@@ -95,27 +107,34 @@ class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
     );
   }
 
-  // Her soru tipi için uygun widget'ı oluştur
   Widget _buildQuestionCard(int index, SurveyQuestion question) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      elevation: 6,
       color: Colors.brown[50],
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+              "Soru ${index + 1}",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.brown[300],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
               question.question,
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
                 color: Colors.brown[800],
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
             if (question.type == QuestionType.multipleChoice &&
                 question.options != null)
               ...question.options!.map((opt) => RadioListTile<String>(
@@ -155,6 +174,30 @@ class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
                   Text("Seçilen seviye: ${answers[index] ?? 5}"),
                 ],
               ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.brown[100],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.local_cafe, size: 20, color: Colors.brown),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      _getRandomTip(index),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.brown,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -175,20 +218,32 @@ class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 300, vertical: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const Text(
+                    "Kahve Tercih Anketi",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.brown,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                   ...selectedQuestions.asMap().entries.map(
                       (entry) => _buildQuestionCard(entry.key, entry.value)),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
+                  const SizedBox(height: 30),
+                  ElevatedButton.icon(
                     onPressed: _submitSurvey,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.brown[700],
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Text(
+                    icon: const Icon(Icons.send, color: Colors.white),
+                    label: const Text(
                       "Anketi Gönder",
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
@@ -196,7 +251,7 @@ class _CoffeeSurveyPageState extends State<CoffeeSurveyPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             const Footerr(children: []),
           ],
         ),

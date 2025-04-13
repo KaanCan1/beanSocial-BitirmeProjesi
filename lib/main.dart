@@ -3,11 +3,13 @@ import 'package:beansocial/anketSayfa.dart';
 import 'package:beansocial/hakkimizda.dart';
 import 'package:beansocial/kahveler.dart';
 import 'package:beansocial/login.dart';
+import 'package:beansocial/profilPage.dart';
 import 'package:beansocial/signup.dart';
 import 'package:beansocial/sss.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_web_plugins/url_strategy.dart'; // ✅ BUNU EKLE
+// ignore: depend_on_referenced_packages
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() {
   usePathUrlStrategy();
@@ -43,6 +45,9 @@ class MyApp extends StatelessWidget {
         '/hakkimizda': (context) => const Hakkimizda(),
         '/kahveler': (context) => const Kahveler(),
         '/anketSayfa': (context) => const CoffeeSurveyPage(),
+        '/profile': (context) => const ProfilePage(
+              userName: '',
+            ),
 
         //'/profile': (context) => const Profile(),
       },

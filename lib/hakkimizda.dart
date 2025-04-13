@@ -146,7 +146,6 @@ class Hakkimizda extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
               // Footer
               const Footerr(
                 children: [],
