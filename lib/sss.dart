@@ -1,144 +1,199 @@
 import 'package:beansocial/footerr.dart';
 import 'package:beansocial/header.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
-class SSS extends StatelessWidget {
+class SSS extends StatefulWidget {
   const SSS({super.key});
 
   @override
+  State<SSS> createState() => _SSSState();
+}
+
+class _SSSState extends State<SSS> {
+  int? selectedIndex;
+
+  @override
   Widget build(BuildContext context) {
-    // Ekranın genişliğini ve yüksekliğini alıyoruz
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    // Ölçekleme faktörü: Ekran genişliğine göre öğelerin boyutlarını orantılı ayarlamak için kullanıyoruz
-    double scaleFactor = width / 375; // 375, baz alınan ekran genişliği (örnek)
-
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 246, 246, 246),
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: Header(),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Başlık kısmı (Sıkça Sorulan Sorular)
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: height *
-                      0.01), // Dikey padding, ekranın yüksekliğine göre ayarlanıyor
-              child: Center(
-                child: Text(
-                  'Sıkça Sorulan Sorular',
-                  style: TextStyle(
-                    fontSize: 15 *
-                        scaleFactor, // Font boyutu, ekran genişliğine göre ölçekleniyor
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 234, 111, 23),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Hero section with animation and title
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.brown.shade100,
+                      Colors.brown.shade50,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Lottie.asset(
+                        'assets/animasyon.json',
+                        height: 150,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'Sıkça Sorulan Sorular',
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.brown.shade800,
+                        fontFamily: 'Roboto',
+                        letterSpacing: 1.5,
+                        shadows: [
+                          Shadow(
+                            color: Colors.brown.shade200,
+                            offset: const Offset(2, 2),
+                            blurRadius: 3,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            // Sıkça Sorulan Sorular Listesi
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: height * 0.05,
-                  horizontal: width * 0.04), // Responsive padding
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FAQItem(
-                    question: '1. BeanSocial nedir?',
-                    answer:
-                        'BeanSocial, kahve severlerin kahve çeşitlerini keşfedeceği, kahve tariflerini paylaşacağı ve sosyal etkileşimde bulunabileceği bir platformdur.',
-                  ),
-                  SizedBox(height: 15),
-                  FAQItem(
-                    question: '2. Uygulama nasıl çalışır?',
-                    answer:
-                        'Uygulama, kullanıcıların kahve tercihlerine göre kişiselleştirilmiş öneriler sunar, sosyal medya benzeri bir ortamda kahve fotoğrafları ve tariflerini paylaşmalarına imkan tanır.',
-                  ),
-                  SizedBox(height: 15),
-                  FAQItem(
-                    question: '3. Kahve aboneliği nasıl yapılır?',
-                    answer:
-                        'Kullanıcılar, damak zevklerine uygun kahve çekirdekleri seçebilir ve aylık/haftalık kahve aboneliği paketlerine abone olabilir.',
-                  ),
-                  SizedBox(height: 15),
-                  FAQItem(
-                    question: '4. Kahve hakkında nasıl bilgi edinebilirim?',
-                    answer:
-                        'Uygulama içinde, kahve türleri, demleme yöntemleri ve diğer kahve bilgilerine dair kapsamlı bir rehber bulunmaktadır.',
-                  ),
-                  SizedBox(height: 15),
-                  FAQItem(
-                    question: '5. Şifremi unuttum, ne yapmalıyım?',
-                    answer:
-                        'Şifrenizi unuttuysanız, giriş ekranında "Şifremi Unuttum" seçeneğini tıklayarak şifrenizi sıfırlayabilirsiniz.',
-                  ),
-                ],
+              const SizedBox(height: 30),
+
+              // FAQ Items
+              _buildFAQItem(
+                index: 0,
+                question: '1. BeanSocial nedir?',
+                answer:
+                    'BeanSocial, kahve severlerin kahve çeşitlerini keşfedeceği, kahve tariflerini paylaşacağı ve sosyal etkileşimde bulunabileceği bir platformdur.',
               ),
-            ),
-            // Footer'ı en altta tutuyoruz
-            const Footerr(
-              children: [], // Footer içeriği buraya eklenebilir
-            ),
-          ],
+              const SizedBox(height: 15),
+              _buildFAQItem(
+                index: 1,
+                question: '2. Uygulama nasıl çalışır?',
+                answer:
+                    'Uygulama, kullanıcıların kahve tercihlerine göre kişiselleştirilmiş öneriler sunar, sosyal medya benzeri bir ortamda kahve fotoğrafları ve tariflerini paylaşmalarına imkan tanır.',
+              ),
+              const SizedBox(height: 15),
+              _buildFAQItem(
+                index: 2,
+                question: '3. Kahve aboneliği nasıl yapılır?',
+                answer:
+                    'Kullanıcılar, damak zevklerine uygun kahve çekirdekleri seçebilir ve aylık/haftalık kahve aboneliği paketlerine abone olabilir.',
+              ),
+              const SizedBox(height: 15),
+              _buildFAQItem(
+                index: 3,
+                question: '4. Kahve hakkında nasıl bilgi edinebilirim?',
+                answer:
+                    'Uygulama içinde, kahve türleri, demleme yöntemleri ve diğer kahve bilgilerine dair kapsamlı bir rehber bulunmaktadır.',
+              ),
+              const SizedBox(height: 15),
+              _buildFAQItem(
+                index: 4,
+                question: '5. Şifremi unuttum, ne yapmalıyım?',
+                answer:
+                    'Şifrenizi unuttuysanız, giriş ekranında "Şifremi Unuttum" seçeneğini tıklayarak şifrenizi sıfırlayabilirsiniz.',
+              ),
+              const SizedBox(height: 30),
+
+              // Footer
+              const Footerr(
+                children: [],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-class FAQItem extends StatelessWidget {
-  final String question;
-  final String answer;
+  Widget _buildFAQItem(
+      {required int index, required String question, required String answer}) {
+    final isExpanded = selectedIndex == index;
 
-  const FAQItem({super.key, required this.question, required this.answer});
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    // Ölçekleme faktörü: Ekran genişliğine göre öğelerin boyutlarını orantılı hale getiriyor
-    double scaleFactor = width / 800;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 150), // Kartın sağ ve sol boşlukları
-      child: Card(
-        elevation: 2, // Kartın gölgesi
-        shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(8), // Kartın köşelerini yuvarlatıyoruz
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedIndex = isExpanded ? null : index;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: isExpanded ? Colors.brown.shade200 : Colors.brown.shade100,
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          border: Border.all(
+            color: isExpanded ? Colors.brown.shade300 : Colors.transparent,
+            width: 1,
+          ),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(16 *
-              scaleFactor), // İçerideki padding, ekran boyutuna göre ayarlanıyor
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                question,
-                style: TextStyle(
-                  fontSize: 9 *
-                      scaleFactor, // Soru metninin font boyutu, ekran genişliğine göre
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 246, 123, 78),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    question,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: isExpanded
+                          ? Colors.brown.shade800
+                          : Colors.brown.shade700,
+                    ),
+                  ),
                 ),
+                Icon(
+                  isExpanded
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  color: Colors.brown.shade600,
+                ),
+              ],
+            ),
+            if (isExpanded) ...[
+              const SizedBox(height: 15),
+              Container(
+                width: double.infinity,
+                height: 1,
+                color: Colors.brown.shade200,
               ),
-              SizedBox(
-                  height: 1 * scaleFactor), // Soru ve cevap arasındaki boşluk
+              const SizedBox(height: 15),
               Text(
                 answer,
-                style: TextStyle(
-                  fontSize: 8 *
-                      scaleFactor, // Cevap metninin font boyutu, ekran genişliğine göre
+                style: const TextStyle(
+                  fontSize: 16,
                   color: Colors.black87,
+                  height: 1.6,
                 ),
               ),
             ],
-          ),
+          ],
         ),
       ),
     );

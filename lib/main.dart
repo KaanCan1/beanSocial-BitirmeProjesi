@@ -11,7 +11,8 @@ import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   runApp(const MyApp());
 }
@@ -35,10 +36,9 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const AnaSayfa(), // Ana sayfa olarak AnaSayfa widget'ı
+      home: const AnaSayfa(),
       routes: {
         '/sss': (context) => const SSS(),
-        //'/custom_anket': (context) => const CustomListItemApp(),
         '/AnaSayfa': (context) => const AnaSayfa(),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
@@ -48,8 +48,6 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfilePage(
               userName: '',
             ),
-
-        //'/profile': (context) => const Profile(),
       },
     );
   }
